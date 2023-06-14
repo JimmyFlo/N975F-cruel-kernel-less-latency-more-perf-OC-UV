@@ -24,7 +24,8 @@
 
 #include "exynos-acme.h"
 
-#define SUSTAINABLE_FREQ 1820000
+#define SUSTAINABLE_FREQ_MID 2020000
+#define SUSTAINABLE_FREQ_BIG 2080000
 /*********************************************************************
  *                          SYSFS INTERFACES                         *
  *********************************************************************/
@@ -574,12 +575,19 @@ static ssize_t store_cpufreq_max_limit(struct kobject *kobj, struct kobj_attribu
 					const char *buf, size_t count)
 {
 	int input;
+	int cpu;
+	struct exynos_cpufreq_domain *domain;
 
 	if (!sscanf(buf, "%8d", &input))
 		return -EINVAL;
 
-if (input < SUSTAINABLE_FREQ && input != -1)
-		input = SUSTAINABLE_FREQ;
+if (domain->id == 1) {
+	            if (input < SUSTAINABLE_FREQ_MID && input != -1)
+		        input = SUSTAINABLE_FREQ_MID;
+	    } else if (domain->id == 2) {
+	            if (input < SUSTAINABLE_FREQ_BIG && input != -1)
+		        input = SUSTAINABLE_FREQ_BIG;
+	    }
 
 	last_max_limit = input;
 	cpufreq_max_limit_update(input);
@@ -672,7 +680,7 @@ static ssize_t store_boost_mode_change(struct kobject *kobj, struct kobj_attribu
 }
 
 static struct kobj_attribute cpufreq_table =
-__ATTR(cpufreq_table, 0444 , show_cpufreq_table, NULL);
+__ATTR(cpufreq_table, 0644 , show_cpufreq_table, NULL);
 static struct kobj_attribute cpufreq_min_limit =
 __ATTR(cpufreq_min_limit, 0644,
 		show_cpufreq_min_limit, store_cpufreq_min_limit);
