@@ -68,7 +68,7 @@ jobs:
                        -morosound                \
                        +boeffla_wl_blocker       \
                        +fp_boost                \
-                       +500hz                   \
+                       +1000hz                   \
                        +io_anxiety               \
                        +nohardening2             \
                        +performance              \
@@ -82,8 +82,6 @@ jobs:
                        +empty_vbmeta             \
                        +io_fiops                 \
                        +noksm                    \
-                       +noswap                   \
-                       +nozram                   \
                        +tcp_cubic                \
                        +io_zen                   \
                        +mass_storage             \
