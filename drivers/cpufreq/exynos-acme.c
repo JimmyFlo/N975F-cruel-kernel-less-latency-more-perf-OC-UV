@@ -1396,7 +1396,7 @@ __setup("cpu_min_c3=", cpufreq_read_cpu_min_c3);
 
 
 
-/*Chatur, Carlos Burero & physwizz*/
+/*OC*/
 /*Overclocking little cores to 2.106GHz*/
 static unsigned long arg_cpu_max_c1 = 1950000; /*max_cpu_freq= 2.106GHz for little cores*/
 
@@ -1435,7 +1435,7 @@ __setup("cpu_max_c2=", cpufreq_read_cpu_max_c2);
 
 
 /*Overclocking prime cores to 3.016GHz*/
-unsigned long arg_cpu_max_c3 = 2950000; /*max_cpu_freq=3.016 GHz*/
+unsigned long arg_cpu_max_c3 = 2912000; /*max_cpu_freq=3.016 GHz*/
 
 static __init int cpufreq_read_cpu_max_c3(char *cpu_max_c3)
 {
