@@ -1397,7 +1397,17 @@ int kbase_mmu_insert_pages_no_flush(struct kbase_device *kbdev,
 	if (nr == 0)
 		return 0;
 
-	mutex_lock(&mmut->mmu_lock);
+	if (!mutex_trylock(&mmut->mmu_lock)) {
+		/*
+		 * Sometimes, mmu_lock takes long time to be released.
+		 * In that case, kswapd is stuck until it can hold
+		 * the lock. Instead, just bail out here so kswapd
+		 * could reclaim other pages.
+		 */
+		if (current_is_kswapd())
+			return -EBUSY;
+		mutex_lock(&mmut->mmu_lock);
+	}
 
 	while (remain) {
 		unsigned int i;
