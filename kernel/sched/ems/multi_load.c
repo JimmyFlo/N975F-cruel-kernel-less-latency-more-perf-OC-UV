@@ -286,15 +286,10 @@ unsigned long ml_boosted_cpu_util(int cpu)
 		return util;
 
 	capacity = capacity_orig_of(cpu);
-	
-#ifdef CONFIG_FREQVAR_TUNE
-	if (bg->group[STUNE_TOPAPP].tasks)
-		fv_boost = freqvar_st_boost_vector(cpu);       
-#else 
-	if (bg->group[STUNE_TOPAPP].tasks)		
-		fv_boost = boost;
-#endif
-	
+
+	if (fv_boost > boost)
+		boost = fv_boost;
+
 	return util + schedtune_margin(capacity, util, boost);
 }
 
@@ -739,7 +734,7 @@ char *part_policy_name[] = {
 };
 
 static __read_mostly unsigned int part_policy_idx = PART_POLICY_MAX_RECENT_LAST;
-static __read_mostly u64 period_size = 4 * NSEC_PER_MSEC;
+static __read_mostly u64 period_size = 8 * NSEC_PER_MSEC;
 static __read_mostly u64 period_hist_size = 10;
 static __read_mostly int high_patten_thres = 700;
 static __read_mostly int high_patten_stdev = 200;
@@ -747,7 +742,7 @@ static __read_mostly int low_patten_count = 3;
 static __read_mostly int low_patten_thres = 1024;
 static __read_mostly int low_patten_stdev = 200;
 
-static __read_mostly u64 boost_interval = 8 * NSEC_PER_MSEC;
+static __read_mostly u64 boost_interval = 16 * NSEC_PER_MSEC;
 
 /********************************************************/
 /*		  Helper funcition			*/
