@@ -68,7 +68,7 @@ jobs:
                        -morosound                \
                        +boeffla_wl_blocker       \
                        +fp_boost                \
-                       +1000hz                   \
+                       +300hz                   \
                        +io_anxiety               \
                        +nohardening2             \
                        +performance              \
@@ -86,6 +86,8 @@ jobs:
                        +io_zen                   \
                        +mass_storage             \
                        +tcp_window_64k           \
+                       +nozram                   \
+                       +noswap                   \
           2>&1 | tee config.info
 
       - name: Install gcc-aarch64-linux-gnu
