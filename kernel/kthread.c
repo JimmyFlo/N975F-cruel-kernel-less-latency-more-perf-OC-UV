@@ -302,6 +302,8 @@ struct task_struct *__kthread_create_on_node(int (*threadfn)(void *data),
 		 */
 		if (xchg(&create->done, NULL)) {
 			return ERR_PTR(-EINTR);
+
+		}
 		
 		/*
 		 * kthreadd (or new kernel thread) will call complete()
