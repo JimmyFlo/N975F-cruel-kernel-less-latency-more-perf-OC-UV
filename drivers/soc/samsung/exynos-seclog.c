@@ -286,7 +286,7 @@ static int exynos_seclog_probe(struct platform_device *pdev)
 
 	/* Set workqueue for Secure log as bottom half */
 	INIT_WORK(&slog_ctx.work, exynos_seclog_worker);
-	slog_ctx.enabled = true;
+	slog_ctx.enabled = false;
 
 	/* Create debugfs for Secure log */
 	slog_ctx.debug_dir = debugfs_create_dir("seclog", NULL);
