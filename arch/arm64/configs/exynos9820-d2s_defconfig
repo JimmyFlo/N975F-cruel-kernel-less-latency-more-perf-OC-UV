@@ -6217,6 +6217,7 @@ CONFIG_SDP=y
 CONFIG_DDAR=y
 # CONFIG_SDP_KEY_DUMP is not set
 CONFIG_CRYPTO=y
+CONFIG_XOR_BLOCKS=y
 
 #
 # Crypto core or helper
