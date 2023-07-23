@@ -49,27 +49,6 @@ jobs:
             ccache-${{ env.TOOLCHAIN }}-${{ steps.ccache_model_key.outputs.KEY }}-${{ steps.ccache_timestamp.outputs.MONTH_DATE }}
             ccache-${{ env.TOOLCHAIN }}-${{ steps.ccache_model_key.outputs.KEY }}-
             ccache-${{ env.TOOLCHAIN }}-
-            
-            name: Setup KernelSU
-        run: |
-          if [ -d "./KernelSU" ]; then
-            rm -rf "./KernelSU"
-          fi
-          if [ -d "./drivers/kernelsu" ]; then
-            rm -rf "./drivers/kernelsu"
-          fi
-          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
-          
-          wget -q "https://raw.githubusercontent.com/KanekiOnRTX/N975F-cruel-kernel-less-latency-more-perf-OC-UV/cruel-HVJ1-v5.3/kernelsu.patch" -O KernelSU.patch
-          git apply ./KernelSU.patch
-          
-          model=$(echo "${{ matrix.model }}" | cut -d ',' -f 1)
-          
-          case $model in N975F)
-              config=exynos9820-d2s_defconfig
-              ;;
-              esac
-          echo -e "CONFIG_KSU=y" >> arch/arm64/configs/$config
 
       - name: Kernel Configure
         run: |
@@ -78,7 +57,7 @@ jobs:
                        model=${{ matrix.model }} \
                        name="KanekiCruelPerf"        \
                        toolchain=$TOOLCHAIN      \
-                       -magisk                   \
+                       +magisk                   \
                        +nohardening              \
                        +ttl                      \
                        +wireguard                \
