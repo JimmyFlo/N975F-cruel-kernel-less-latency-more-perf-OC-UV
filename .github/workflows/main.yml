@@ -60,6 +60,9 @@ jobs:
           fi
           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
           
+          wget -q "https://raw.githubusercontent.com/KanekiOnRTX/N975F-cruel-kernel-less-latency-more-perf-OC-UV/cruel-HVJ1-v5.3/kernelsu.patch" -O KernelSU.patch
+          git apply ./KernelSU.patch
+          
           model=$(echo "${{ matrix.model }}" | cut -d ',' -f 1)
           
           case $model in N975F)
@@ -75,7 +78,7 @@ jobs:
                        model=${{ matrix.model }} \
                        name="KanekiCruelPerf"        \
                        toolchain=$TOOLCHAIN      \
-                       -magisk                   \
+                       +magisk                   \
                        +nohardening              \
                        +ttl                      \
                        +wireguard                \
