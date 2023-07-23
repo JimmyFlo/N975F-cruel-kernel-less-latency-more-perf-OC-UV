@@ -49,6 +49,24 @@ jobs:
             ccache-${{ env.TOOLCHAIN }}-${{ steps.ccache_model_key.outputs.KEY }}-${{ steps.ccache_timestamp.outputs.MONTH_DATE }}
             ccache-${{ env.TOOLCHAIN }}-${{ steps.ccache_model_key.outputs.KEY }}-
             ccache-${{ env.TOOLCHAIN }}-
+            
+            name: Setup KernelSU
+        run: |
+          if [ -d "./KernelSU" ]; then
+            rm -rf "./KernelSU"
+          fi
+          if [ -d "./drivers/kernelsu" ]; then
+            rm -rf "./drivers/kernelsu"
+          fi
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+          
+          model=$(echo "${{ matrix.model }}" | cut -d ',' -f 1)
+          
+          case $model in N975F)
+              config=exynos9820-d2s_defconfig
+              ;;
+              esac
+          echo -e "CONFIG_KSU=y" >> arch/arm64/configs/$config
 
       - name: Kernel Configure
         run: |
